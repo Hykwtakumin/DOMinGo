@@ -28,9 +28,6 @@ const stopElimination = async () => {
 
 //拡張機能のボタンを押すとDOM削除モードに移行する
 chrome.browserAction.onClicked.addListener(tab => {
-    console.log("browserAction is clicked");
-    console.dir(tab);
-
     if (chrome.runtime.lastError && chrome.runtime.lastError.message.match(/cannot be scripted/)) {
         window.alert('It is not allowed to use Gyaon extension in this page.');
         chrome.browserAction.disable();
