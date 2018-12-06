@@ -1,0 +1,43 @@
+{
+  "name": "dom-in-go",
+  "version": "0.0.1",
+  "description": "chrome extension starter pack with typescript",
+  "scripts": {
+    "postinstall": "mkdir ./dist/pages ./dist/icons ./dist/styles",
+    "clean": "rm -rf dist/*",
+    "tsc": "./node_modules/.bin/tsc",
+    "copy": "cp ./manifest.json ./dist && cp -r ./src/pages ./dist/pages && cp -r ./src/icons ./dist/icons && cp -r ./src/styles ./dist/styles",
+    "build": "npm run clean && npm run copy && npm run tsc && npm run browserify",
+    "browserify-bg": "browserify ./dist/scripts/background.js -o ./dist/scripts/background.js",
+    "browserify-cs": "browserify ./dist/scripts/content.js -o ./dist/scripts/content.js",
+    "browserify-op": "browserify ./dist/scripts/option.js -o ./dist/scripts/option.js",
+    "browserify": "npm run browserify-bg && npm run browserify-cs && npm run browserify-op"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hykwtakumin/ChromeExtension-TS-Starter.git"
+  },
+  "author": "hykwtakumin <hykwtakumin@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Hykwtakumin/ChromeExtension-TS-Starter/issues"
+  },
+  "homepage": "https://github.com/Hykwtakumin/ChromeExtension-TS-Starter#readme",
+  "dependencies": {
+    "@types/es6-promise": "^3.3.0",
+    "@types/react": "^16.7.13",
+    "@types/react-dom": "^16.0.11",
+    "axios": "^0.18.0",
+    "chrome-promise": "^3.0.2",
+    "emotion": "^10.0.2",
+    "get-selector": "^1.0.3",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "shortid": "^2.2.14"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.68",
+    "browserify": "^16.2.2",
+    "typescript": "^2.9.1"
+  }
+}
