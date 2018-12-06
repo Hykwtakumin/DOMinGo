@@ -15,11 +15,10 @@ const removeAndStore = async (event: MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
     const dom = mouseElm(event);
-    const url = window.location;
     const selector = getSelector(dom);
     removeList.push(selector);
     console.log(`selector : ${selector}`);
-    dom.remove();
+    dom.classList.add("hidden");
     console.dir(removeList);
     window.localStorage.setItem("removeList", JSON.stringify(removeList));
     //chromep.storage.local.set({url : {removeList}}).catch(e => console.log(e));
@@ -94,7 +93,7 @@ window.onload = async () => {
         removeList.forEach(item => {
             try {
                 const removeDOM = document.querySelector(item);
-                removeDOM.remove();
+                removeDOM.classList.add("hidden");
             } catch (e) {
                 console.log(e);
             }
