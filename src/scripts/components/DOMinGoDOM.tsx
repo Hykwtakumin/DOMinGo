@@ -1,12 +1,19 @@
 import * as React from "react";
 import {css} from 'emotion'
+import {MouseDOM} from "./MouseDOM";
 
 interface defaultProps {
     defaultState: defaultState
 }
 
 interface defaultState {
-    count: number;
+    count: number,
+    mdLeft: number,
+    mdRight: number,
+    mdTop: number,
+    mdBottom: number,
+    mdWidth: number,
+    mdHeight: number
 }
 
 const container = css({
@@ -38,18 +45,63 @@ const innerText = css({
 class DOMinGoDOM extends React.Component<defaultProps, defaultState> {
     constructor(props: defaultProps) {
         super(props);
-        const {count} = props.defaultState;
+        const {count, mdLeft, mdRight, mdTop, mdBottom, mdWidth, mdHeight} = props.defaultState;
         this.state = {
-            count: count
-        }
+            count: count,
+            mdLeft: mdLeft,
+            mdRight: mdRight,
+            mdTop: mdTop,
+            mdBottom: mdBottom,
+            mdWidth: mdWidth,
+            mdHeight: mdHeight
+        };
     }
+
+    upDateMouseDOM = (event: MouseEvent) => {
+        const mouseElm = window.document.elementFromPoint(event.clientX, event.clientY).getBoundingClientRect();
+        console.dir(window.document.elementFromPoint(event.clientX, event.clientY));
+        this.setState({
+            mdLeft: mouseElm.left,
+            mdRight: mouseElm.right,
+            mdTop: mouseElm.top,
+            mdBottom: mouseElm.bottom,
+            mdWidth: mouseElm.width,
+            mdHeight: mouseElm.height
+        });
+    };
+
+    removeMouseDOM = (event: MouseEvent) => {
+
+    };
+
+    componentWillMount() {
+        window.document.addEventListener("mousemove", this.upDateMouseDOM);
+    }
+
+
+    handleMouseMove = (event) => {
+        const mouseDom = window.document.elementFromPoint(event.x, event.y);
+        console.dir(mouseDom);
+    };
+
+    componentWillUnmount() {
+        window.document.removeEventListener("mousemove", this.upDateMouseDOM)
+    };
 
     render() {
         return (
-            <div className={container}>
-                <div className={mainPart}>
-                    <div className={innerText}>{`Counts is : ${this.state.count}`}</div>
+            <div>
+                <div className={container}>
+                    <div className={mainPart}>
+                        <div className={innerText}>{`Counts is : ${this.state.count}`}</div>
+                    </div>
                 </div>
+                <MouseDOM
+                    mdLeft={this.state.mdLeft}
+                    mdTop={this.state.mdTop}
+                    mdWidth={this.state.mdWidth}
+                    mdHeight={this.state.mdHeight}
+                />
             </div>
         );
     }

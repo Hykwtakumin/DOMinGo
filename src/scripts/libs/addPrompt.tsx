@@ -9,7 +9,15 @@ const addPrompt = () => {
         prompt.id = "DOMinGoPrompt";
         prompt.className = "DOMinGoPrompt";
         window.document.body.appendChild(prompt);
-        ReactDOM.render(<DOMinGoDOM defaultState={{count: 114514}}/>, prompt);
+        ReactDOM.render(<DOMinGoDOM defaultState={{
+            count: 114514,
+            mdTop: 0,
+            mdBottom: 0,
+            mdLeft: 0,
+            mdRight: 0,
+            mdHeight: 0,
+            mdWidth: 0
+        }}/>, prompt);
     } else {
         console.log("DOMinGoPrompt is already add!");
     }

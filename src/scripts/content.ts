@@ -55,14 +55,14 @@ const removeHighlight = () => {
 // };
 
 const startElimination = () => {
-    //addPrompt();
+    addPrompt();
     //addHighlight();
     //document.addEventListener('mousemove', mouseMoving);
     document.addEventListener('click', removeAndStore);
 };
 
 const stopElimination = () => {
-    //removePrompt();
+    removePrompt();
     //document.removeEventListener('mousemove', mouseMoving);
     document.removeEventListener('click', removeAndStore);
     //removeHighlight();
