@@ -74,7 +74,7 @@ class DOMinGoDOM extends React.Component<defaultProps, defaultState> {
 
     };
 
-    componentWillMount() {
+    componentDidMount() {
         window.document.addEventListener("mousemove", this.upDateMouseDOM);
     }
 
