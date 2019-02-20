@@ -68,6 +68,40 @@ const stopElimination = () => {
     //removeHighlight();
 };
 
+const onDOMMouseOver = (event: MouseEvent) => {
+    event.stopPropagation();
+    const elem = event.target;
+
+
+};
+
+const onDOMMouseOut = (event: MouseEvent) => {
+
+};
+
+const setEventListenerToAll = () => {
+    const allElms = Array.from(document.body.querySelectorAll('*'))
+        .filter(function (item) {
+            return item.id !== 'domingo-overlay' && item.id !== 'domingo-panel'
+        });
+
+    allElms.forEach(async (item) => {
+        item.addEventListener('mouseover', onDOMMouseOver);
+        item.addEventListener('mouseout', onDOMMouseOut);
+    });
+};
+
+const removeEventLitenerToAll = () => {
+    const allElms = Array.from(document.body.querySelectorAll('*'))
+        .filter(function (item) {
+            return item.id !== 'domingo-overlay' && item.id !== 'domingo-panel'
+        });
+    allElms.forEach(async (item) => {
+        item.removeEventListener('mouseover', onDOMMouseOver);
+        item.removeEventListener('mouseout', onDOMMouseOut);
+    });
+};
+
 chrome.storage.onChanged.addListener((details) => {
     if (details.mode.newValue === true) {
         startElimination();
@@ -82,8 +116,9 @@ window.onload = async () => {
     const mode = await chromep.storage.local.get("mode");
     console.log(`mode : ${mode.mode}`);
 
+
     const localList = window.localStorage.getItem("removeList");
-    if (localList != undefined && localList.length != 0 && mode.mode === true) {
+    if (localList.length != 0 && mode.mode === true) {
         const list = JSON.parse(localList);
         list.forEach(item => {
             removeList.push(item);
