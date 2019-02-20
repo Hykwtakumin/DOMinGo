@@ -96,12 +96,12 @@ class DOMinGoDOM extends React.Component<defaultProps, defaultState> {
                         <div className={innerText}>{`Counts is : ${this.state.count}`}</div>
                     </div>
                 </div>
-                <MouseDOM
-                    mdLeft={this.state.mdLeft}
-                    mdTop={this.state.mdTop}
-                    mdWidth={this.state.mdWidth}
-                    mdHeight={this.state.mdHeight}
-                />
+                {/*<MouseDOM*/}
+                {/*mdLeft={this.state.mdLeft}*/}
+                {/*mdTop={this.state.mdTop}*/}
+                {/*mdWidth={this.state.mdWidth}*/}
+                {/*mdHeight={this.state.mdHeight}*/}
+                {/*/>*/}
             </div>
         );
     }

@@ -24,82 +24,29 @@ const removeAndStore = async (event: MouseEvent) => {
     //chromep.storage.local.set({url : {removeList}}).catch(e => console.log(e));
 };
 
-const addHighlight = () => {
-    //mouseElm(event).classList.add("domingo_target");
-    const highLight = window.document.createElement('div');
-    highLight.id = "domingo_target";
-    highLight.classList.add("domingo_target");
-    window.document.body.appendChild(highLight);
-};
-
-const removeHighlight = () => {
-    const highLight = window.document.getElementById("domingo_target");
-    if (highLight != null) {
-        highLight.remove();
-    }
-};
-
-// const mouseMoving = (event: MouseEvent) => {
-//     const dom = mouseElm(event);
-//     console.dir(dom);
-//     const highLight = window.document.getElementById("domingo_target");
-//     if (highLight != null) {
-//         console.dir(highLight);
-//         highLight.style.width = dom.clientWidth.toString();
-//         highLight.style.height = dom.clientHeight.toString();
-//         highLight.style.left = dom.clientLeft.toString();
-//         highLight.style.top = dom.clientTop.toString();
-//     } else {
-//         console.log("highLight is null");
-//     }
-// };
-
 const startElimination = () => {
     addPrompt();
-    //addHighlight();
-    //document.addEventListener('mousemove', mouseMoving);
-    document.addEventListener('click', removeAndStore);
+    window.document.addEventListener('mousemove', mouseMoving, false);
+    //document.addEventListener('click', removeAndStore);
 };
 
 const stopElimination = () => {
     removePrompt();
-    //document.removeEventListener('mousemove', mouseMoving);
-    document.removeEventListener('click', removeAndStore);
+    window.document.removeEventListener('mousemove', mouseMoving);
+    //document.removeEventListener('click', removeAndStore);
     //removeHighlight();
 };
 
-const onDOMMouseOver = (event: MouseEvent) => {
-    event.stopPropagation();
-    const elem = event.target;
+let prevDOM: HTMLElement;
 
-
-};
-
-const onDOMMouseOut = (event: MouseEvent) => {
-
-};
-
-const setEventListenerToAll = () => {
-    const allElms = Array.from(document.body.querySelectorAll('*'))
-        .filter(function (item) {
-            return item.id !== 'domingo-overlay' && item.id !== 'domingo-panel'
-        });
-
-    allElms.forEach(async (item) => {
-        item.addEventListener('mouseover', onDOMMouseOver);
-        item.addEventListener('mouseout', onDOMMouseOut);
-    });
-};
-
-const removeEventLitenerToAll = () => {
-    const allElms = Array.from(document.body.querySelectorAll('*'))
-        .filter(function (item) {
-            return item.id !== 'domingo-overlay' && item.id !== 'domingo-panel'
-        });
-    allElms.forEach(async (item) => {
-        item.removeEventListener('mouseover', onDOMMouseOver);
-        item.removeEventListener('mouseout', onDOMMouseOut);
-    });
+function mouseMoving(event: MouseEvent) {
+    const srcElement = event.srcElement as HTMLElement;
+    if (prevDOM) {
+        prevDOM.classList.remove('crx_mouse_visited');
+    }
+    console.log('classlist add!');
+    srcElement.classList.add('crx_mouse_visited');
+    prevDOM = srcElement;
 };
 
 chrome.storage.onChanged.addListener((details) => {
@@ -118,7 +65,7 @@ window.onload = async () => {
 
 
     const localList = window.localStorage.getItem("removeList");
-    if (localList.length != 0 && mode.mode === true) {
+    if (localList && localList.length != 0 && mode.mode === true) {
         const list = JSON.parse(localList);
         list.forEach(item => {
             removeList.push(item);

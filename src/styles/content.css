@@ -6,3 +6,13 @@
 .hidden {
     display: none;
 }
+
+.domingo-overlay {
+    z-index: 114510;
+    background: repeating-linear-gradient(45deg, #1e9cef, #1e9cef 5px, #FFFFFF 0, #FFFFFF 10px);
+}
+
+.crx_mouse_visited {
+    background-color: #bcd5eb !important;
+    outline: 1px solid #5166bb !important;
+}
