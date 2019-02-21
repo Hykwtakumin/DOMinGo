@@ -1,18 +1,25 @@
-.domingo_target {
-    z-index: 114510;
-    background: repeating-linear-gradient(45deg, #1e9cef, #1e9cef 5px, #FFFFFF 0, #FFFFFF 10px);
-}
 
-.hidden {
-    display: none;
+.domingo-hidden {
+    display: none !important;
 }
 
 .domingo-overlay {
-    z-index: 114510;
-    background: repeating-linear-gradient(45deg, #1e9cef, #1e9cef 5px, #FFFFFF 0, #FFFFFF 10px);
+    background-color: #bddfd2 !important;
+    outline: 2px solid #44bb89 !important;
 }
 
-.crx_mouse_visited {
-    background-color: #bcd5eb !important;
-    outline: 1px solid #5166bb !important;
+.domingo-hide-book {
+    background-color: #bddfd2 !important;
+    outline: 2px solid #44bb89 !important;
+}
+
+.domingo-control-panel {
+    z-index: 114514;
+    background-color: #dddfdd;
+    position: fixed;
+    width: 30%;
+    top: 1%;
+    right: 1%;
+    text-align: center;
+    border-radius: 5px;
 }

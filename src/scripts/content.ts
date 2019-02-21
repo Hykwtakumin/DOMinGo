@@ -4,56 +4,122 @@ declare var require: any;
 const getSelector = require('get-selector');
 import addPrompt from "./libs/addPrompt";
 import removePrompt from "./libs/removePrompt";
+import {Simulate} from "react-dom/test-utils";
+import select = Simulate.select;
+import {addPanel} from "./libs/addPanel";
+import {removePanel} from "./libs/removePanel";
+import hide = chrome.pageAction.hide;
 
-const removeList: Array<string> = [];
+let removeList: Array<string> = [];
+let prevDOM: HTMLElement;
+let lastExecTime: number;
 
-const mouseElm = (event: MouseEvent): Element => {
-    return window.document.elementFromPoint(event.clientX, event.clientY);
-};
+let controlPanel: HTMLElement;
+let hideButton: HTMLElement;
 
 const removeAndStore = async (event: MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
-    const dom = mouseElm(event);
+    const dom = event.srcElement;
     const selector = getSelector(dom);
     removeList.push(selector);
     console.log(`selector : ${selector}`);
-    dom.classList.add("hidden");
+    dom.classList.add("domingo-hidden");
     console.dir(removeList);
     window.localStorage.setItem("removeList", JSON.stringify(removeList));
     //chromep.storage.local.set({url : {removeList}}).catch(e => console.log(e));
 };
 
-const startElimination = () => {
-    addPrompt();
-    window.document.addEventListener('mousemove', mouseMoving, false);
-    //document.addEventListener('click', removeAndStore);
+const startDOMManipulation = () => {
+    //addPrompt();
+    controlPanel = addPanel();
+    hideButton = document.getElementById("hideButton");
+
+    if (controlPanel && hideButton) {
+        window.document.addEventListener('mousemove', handleMouseMoving, false);
+        // window.document.addEventListener('mousedown', handelMouseDown, false);
+        // window.document.addEventListener('mouseup', handleMouseUp, false);
+        window.document.addEventListener('click', handleMouseClick);
+        hideButton.addEventListener('click', handlehideButton);
+    }
 };
 
-const stopElimination = () => {
-    removePrompt();
-    window.document.removeEventListener('mousemove', mouseMoving);
-    //document.removeEventListener('click', removeAndStore);
+const stopDOMManipulation = () => {
+    //removePrompt();
+    removePanel();
+    window.document.removeEventListener('mousemove', handleMouseMoving);
+    // window.document.removeEventListener('mousedown', handelMouseDown);
+    // window.document.removeEventListener('mouseup', handleMouseUp);
+    if (prevDOM) {
+        prevDOM.classList.remove('domingo-overlay');
+    }
+    window.document.removeEventListener('click', handleMouseClick);
     //removeHighlight();
 };
 
-let prevDOM: HTMLElement;
-
-function mouseMoving(event: MouseEvent) {
-    const srcElement = event.srcElement as HTMLElement;
-    if (prevDOM) {
-        prevDOM.classList.remove('crx_mouse_visited');
-    }
-    console.log('classlist add!');
-    srcElement.classList.add('crx_mouse_visited');
-    prevDOM = srcElement;
+const hideAllElement = () => {
+    removeList.forEach(item => {
+        try {
+            const removeDOM = document.querySelector(item);
+            removeDOM.classList.add("domingo-hidden");
+        } catch (e) {
+            console.log(e);
+        }
+    })
 };
+
+function handlehideButton(event: MouseEvent) {
+    hideAllElement();
+}
+
+function handleMouseClick(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    const srcElement = event.srcElement as HTMLElement;
+    const selector = getSelector(srcElement);
+    if (removeList.includes(selector)) {
+        /*if exists already, cancel*/
+        removeList = removeList.filter(item => {
+            return item !== selector
+        });
+        srcElement.classList.remove('domingo-hide-book');
+    } else {
+        removeList.push(selector);
+        srcElement.classList.add('domingo-hide-book');
+    }
+}
+
+function handleMouseMoving(event: MouseEvent) {
+    const srcElement = event.srcElement as HTMLElement;
+    if (srcElement != controlPanel && srcElement != hideButton) {
+        if (prevDOM) {
+            prevDOM.classList.remove('domingo-overlay');
+        }
+        srcElement.classList.add('domingo-overlay');
+        prevDOM = srcElement;
+    }
+}
+
+function handelMouseDown(event: MouseEvent) {
+    const srcElement = event.srcElement as HTMLElement;
+    lastExecTime = performance.now();
+}
+
+function handleMouseUp(event: MouseEvent) {
+    const srcElement = event.srcElement as HTMLElement;
+    const mouseElm = document.elementFromPoint(event.clientX, event.clientY);
+    const elapsedTime = performance.now() - lastExecTime;
+    if (elapsedTime >= 300) {
+        console.log(`elapsedTime : ${elapsedTime}`);
+        removeAndStore(event);
+    }
+}
 
 chrome.storage.onChanged.addListener((details) => {
     if (details.mode.newValue === true) {
-        startElimination();
+        startDOMManipulation();
     } else if (details.mode.newValue === false) {
-        stopElimination();
+        stopDOMManipulation();
     }
 });
 
@@ -75,7 +141,7 @@ window.onload = async () => {
         removeList.forEach(item => {
             try {
                 const removeDOM = document.querySelector(item);
-                removeDOM.classList.add("hidden");
+                removeDOM.classList.add("domingo-hidden");
             } catch (e) {
                 console.log(e);
             }

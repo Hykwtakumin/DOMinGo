@@ -7,13 +7,7 @@ interface defaultProps {
 }
 
 interface defaultState {
-    count: number,
-    mdLeft: number,
-    mdRight: number,
-    mdTop: number,
-    mdBottom: number,
-    mdWidth: number,
-    mdHeight: number
+    count: number
 }
 
 const container = css({
@@ -45,47 +39,24 @@ const innerText = css({
 class DOMinGoDOM extends React.Component<defaultProps, defaultState> {
     constructor(props: defaultProps) {
         super(props);
-        const {count, mdLeft, mdRight, mdTop, mdBottom, mdWidth, mdHeight} = props.defaultState;
+        const {count} = props.defaultState;
         this.state = {
-            count: count,
-            mdLeft: mdLeft,
-            mdRight: mdRight,
-            mdTop: mdTop,
-            mdBottom: mdBottom,
-            mdWidth: mdWidth,
-            mdHeight: mdHeight
+            count: count
         };
     }
 
-    upDateMouseDOM = (event: MouseEvent) => {
-        const mouseElm = window.document.elementFromPoint(event.clientX, event.clientY).getBoundingClientRect();
-        console.dir(window.document.elementFromPoint(event.clientX, event.clientY));
-        this.setState({
-            mdLeft: mouseElm.left,
-            mdRight: mouseElm.right,
-            mdTop: mouseElm.top,
-            mdBottom: mouseElm.bottom,
-            mdWidth: mouseElm.width,
-            mdHeight: mouseElm.height
-        });
-    };
-
-    removeMouseDOM = (event: MouseEvent) => {
-
-    };
-
     componentDidMount() {
-        window.document.addEventListener("mousemove", this.upDateMouseDOM);
+        //window.document.addEventListener("mousemove", this.upDateMouseDOM);
     }
 
 
     handleMouseMove = (event) => {
-        const mouseDom = window.document.elementFromPoint(event.x, event.y);
-        console.dir(mouseDom);
+        //const mouseDom = window.document.elementFromPoint(event.x, event.y);
+        //console.dir(mouseDom);
     };
 
     componentWillUnmount() {
-        window.document.removeEventListener("mousemove", this.upDateMouseDOM)
+        //window.document.removeEventListener("mousemove", this.upDateMouseDOM)
     };
 
     render() {
