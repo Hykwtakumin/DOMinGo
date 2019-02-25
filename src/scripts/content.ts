@@ -2,13 +2,8 @@ import chromep from 'chrome-promise';
 
 declare var require: any;
 const getSelector = require('get-selector');
-import addPrompt from "./libs/addPrompt";
-import removePrompt from "./libs/removePrompt";
-import {Simulate} from "react-dom/test-utils";
-import select = Simulate.select;
 import {addPanel} from "./libs/addPanel";
 import {removePanel} from "./libs/removePanel";
-import hide = chrome.pageAction.hide;
 
 let removeList: Array<string> = [];
 let prevDOM: HTMLElement;
@@ -65,7 +60,7 @@ const hideAllElement = () => {
         } catch (e) {
             console.log(e);
         }
-    })
+    });
 };
 
 function handlehideButton(event: MouseEvent) {
@@ -76,42 +71,41 @@ function handleMouseClick(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
     const srcElement = event.srcElement as HTMLElement;
-    const selector = getSelector(srcElement);
-    if (removeList.includes(selector)) {
-        /*if exists already, cancel*/
-        removeList = removeList.filter(item => {
-            return item !== selector
-        });
-        srcElement.classList.remove('domingo-hide-book');
-    } else {
-        removeList.push(selector);
-        srcElement.classList.add('domingo-hide-book');
+
+    if (!srcElement.classList.contains('domingo-control-panel') &&
+        !srcElement.classList.contains('domingo-action-button') &&
+        !srcElement.classList.contains('domingo-sub-control-panel') &&
+        !srcElement.classList.contains('domingo-control-button')
+    ) {
+        const selector = getSelector(srcElement);
+        console.log(selector);
+        const classList = srcElement.classList;
+        console.dir(classList);
+        if (removeList.includes(selector)) {
+            /*if exists already, cancel*/
+            removeList = removeList.filter(item => {
+                return item !== selector
+            });
+            srcElement.classList.remove('domingo-hide-book');
+        } else {
+            removeList.push(selector);
+            srcElement.classList.add('domingo-hide-book');
+        }
     }
 }
 
 function handleMouseMoving(event: MouseEvent) {
     const srcElement = event.srcElement as HTMLElement;
-    if (srcElement != controlPanel && srcElement != hideButton) {
+    if (!srcElement.classList.contains('domingo-control-panel') &&
+        !srcElement.classList.contains('domingo-action-button') &&
+        !srcElement.classList.contains('domingo-sub-control-panel') &&
+        !srcElement.classList.contains('domingo-control-button')
+    ) {
         if (prevDOM) {
             prevDOM.classList.remove('domingo-overlay');
         }
         srcElement.classList.add('domingo-overlay');
         prevDOM = srcElement;
-    }
-}
-
-function handelMouseDown(event: MouseEvent) {
-    const srcElement = event.srcElement as HTMLElement;
-    lastExecTime = performance.now();
-}
-
-function handleMouseUp(event: MouseEvent) {
-    const srcElement = event.srcElement as HTMLElement;
-    const mouseElm = document.elementFromPoint(event.clientX, event.clientY);
-    const elapsedTime = performance.now() - lastExecTime;
-    if (elapsedTime >= 300) {
-        console.log(`elapsedTime : ${elapsedTime}`);
-        removeAndStore(event);
     }
 }
 
