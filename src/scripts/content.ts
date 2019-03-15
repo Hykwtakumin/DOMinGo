@@ -12,6 +12,12 @@ let lastExecTime: number;
 let controlPanel: HTMLElement;
 let hideButton: HTMLElement;
 
+/*TODO: disable Redu button when list is empty*/
+const redo = () => {
+    const lastDOMSelector = removeList[removeList.length - 1];
+    const lastDOM = document.querySelector(lastDOMSelector);
+};
+
 const removeAndStore = async (event: MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
@@ -35,7 +41,7 @@ const startDOMManipulation = () => {
         // window.document.addEventListener('mousedown', handelMouseDown, false);
         // window.document.addEventListener('mouseup', handleMouseUp, false);
         window.document.addEventListener('click', handleMouseClick);
-        hideButton.addEventListener('click', handlehideButton);
+        hideButton.addEventListener('click', handleHideButton);
     }
 };
 
@@ -63,7 +69,7 @@ const hideAllElement = () => {
     });
 };
 
-function handlehideButton(event: MouseEvent) {
+function handleHideButton(event: MouseEvent) {
     hideAllElement();
 }
 
