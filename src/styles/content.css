@@ -1,8 +1,63 @@
-.domingo_target {
-    z-index: 114510;
-    background: repeating-linear-gradient(45deg, #1e9cef, #1e9cef 5px, #FFFFFF 0, #FFFFFF 10px);
+
+.domingo-hidden {
+    display: none !important;
 }
 
-.hidden {
-    display: none;
+.domingo-overlay {
+    /*background-color: #bddfd2 !important;*/
+    background: repeating-linear-gradient(45deg, #44bb89, #44bb89 5px, #FFFFFF 0, #FFFFFF 10px) !important;
+    outline: 2px solid #44bb89 !important;
+}
+
+.domingo-hide-book {
+    background-color: #bddfd2 !important;
+    outline: 2px solid #44bb89 !important;
+}
+
+.domingo-control-panel {
+    z-index: 114514;
+    background-color: #bddfd2;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    position: fixed;
+    width: 15%;
+    top: 1%;
+    right: 1%;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.domingo-sub-control-panel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    text-align: center;
+}
+
+.domingo-action-button {
+    display: block;
+    padding: 0.3em 1em;
+    text-decoration: none;
+    background: #FFFFFF;
+    color: #44bb89;
+    border: solid 3px #44bb89;
+    margin: 1%;
+    border-radius: 3px;
+    transition: .4s;
+}
+
+.domingo-action-button:hover {
+    margin: 1%;
+    background: #44bb89;
+    color: #FFFFFF;
+}
+
+.domingo-control-button {
+    display: inline-block;
+    background: #1d81ff;
+    border: solid 3px #1d81ff;
+    color: #ffffff;
+    margin: 1%;
+    border-radius: 3px;
 }
