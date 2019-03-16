@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import DOMinGoDOM from "../components/DOMinGoDOM";
+import DOMinGoDOM from "./DOMinGoDOM";
+import {Prompt} from "./Prompt";
 
 const addPrompt = () => {
     //プロンプトを追加する
@@ -9,17 +10,9 @@ const addPrompt = () => {
         prompt.id = "DOMinGoPrompt";
         prompt.className = "DOMinGoPrompt";
         window.document.body.appendChild(prompt);
-        ReactDOM.render(<DOMinGoDOM defaultState={{
-            count: 114514
-        }}/>, prompt);
+        ReactDOM.render(<Prompt/>, prompt);
     } else {
         console.log("DOMinGoPrompt is already add!");
-    }
-    //次にカーソル当てたときのアレを追加する
-    if (window.document.getElementsByClassName("DOMinGoDOM") === null) {
-        //
-    } else {
-        console.log("DOMinGoDOM is already add!");
     }
 };
 

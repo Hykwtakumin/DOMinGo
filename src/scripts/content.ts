@@ -4,6 +4,8 @@ declare var require: any;
 const getSelector = require('get-selector');
 import {addPanel} from "./libs/addPanel";
 import {removePanel} from "./libs/removePanel";
+import addPrompt from "./components/addPrompt";
+import removePrompt from "./libs/removePrompt";
 
 let removeList: Array<string> = [];
 let prevDOM: HTMLElement;
@@ -32,22 +34,24 @@ const removeAndStore = async (event: MouseEvent) => {
 };
 
 const startDOMManipulation = () => {
-    //addPrompt();
-    controlPanel = addPanel();
-    hideButton = document.getElementById("hideButton");
+    addPrompt();
+    window.document.addEventListener('mousemove', handleMouseMoving, false);
+    window.document.addEventListener('click', handleMouseClick);
 
-    if (controlPanel && hideButton) {
-        window.document.addEventListener('mousemove', handleMouseMoving, false);
-        // window.document.addEventListener('mousedown', handelMouseDown, false);
-        // window.document.addEventListener('mouseup', handleMouseUp, false);
-        window.document.addEventListener('click', handleMouseClick);
-        hideButton.addEventListener('click', handleHideButton);
-    }
+
+    // controlPanel = addPanel();
+    // hideButton = document.getElementById("hideButton");
+    //
+    // if (controlPanel && hideButton) {
+    //     window.document.addEventListener('mousemove', handleMouseMoving, false);
+    //     window.document.addEventListener('click', handleMouseClick);
+    //     hideButton.addEventListener('click', handleHideButton);
+    // }
 };
 
 const stopDOMManipulation = () => {
-    //removePrompt();
-    removePanel();
+    removePrompt();
+    // removePanel();
     window.document.removeEventListener('mousemove', handleMouseMoving);
     // window.document.removeEventListener('mousedown', handelMouseDown);
     // window.document.removeEventListener('mouseup', handleMouseUp);

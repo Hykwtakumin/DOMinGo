@@ -49,7 +49,7 @@ export const addPanel = (): HTMLElement => {
 
     exportButton.id = "exportButton";
     exportButton.classList.add('domingo-control-button');
-    exportButton.innerText = " ⇧共有";
+    exportButton.innerText = "⇧共有";
 
     settingButton.id = "settingButton";
     settingButton.classList.add('domingo-control-button');
