@@ -1,4 +1,3 @@
-/** @jsx jsx */
 import * as React from "react";
 import {useState} from "react";
 import {jsx, css} from '@emotion/core'
@@ -12,24 +11,24 @@ import {
 } from "../libs/defaultActionList";
 
 
-const buttonHover = css({
-    margin: "1%",
-    background: "#44bb89",
-    color: "#FFFFFF"
-});
-
-const button = css({
-    display: "block",
-    padding: "0.3em 1em",
-    textDecoration: "none",
-    background: "#FFFFFF",
-    color: "#44bb89",
-    border: "solid 3px #44bb89",
-    margin: "1%",
-    borderRadius: "3px",
-    transition: ".4s",
-    ':hover,:focus': buttonHover
-});
+// const buttonHover = css({
+//     margin: "1%",
+//     background: "#44bb89",
+//     color: "#FFFFFF"
+// });
+//
+// const button = css({
+//     display: "block",
+//     padding: "0.3em 1em",
+//     textDecoration: "none",
+//     background: "#FFFFFF",
+//     color: "#44bb89",
+//     border: "solid 3px #44bb89",
+//     margin: "1%",
+//     borderRadius: "3px",
+//     transition: ".4s",
+//     ':hover,:focus': buttonHover
+// });
 
 // actionList: DOMinGoAction[], reservedActionList: reservedDOM[]
 
@@ -62,7 +61,7 @@ export const ButtonList: React.FC<{}> = ({}) => {
     return (
         <div>
             {actionList.map(action => {
-                <button css={button} value={action.desc} onClick={() => {
+                <button className={"domingo-action-button"} value={action.desc} onClick={() => {
                     handleClick(action)
                 }}/>
             })}

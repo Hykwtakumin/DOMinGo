@@ -1,37 +1,60 @@
+import {domingoBold, domingoChangeBGColor, domingoEnlarge, domingoHide, domingoWidenLine} from "./defaultActionList";
+import {ActionPair, DOMinGoAction} from "./DOMinGOTypes";
+import {getReservedDOM, setReservedDOM} from "./DOMinGoStorage";
+import chromep from "chrome-promise";
+import {applyAction, clearReservedListAndSetActionPair, setActionPair} from "../content";
+import {act} from "react-dom/test-utils";
+
+
 export const addPanel = (): HTMLElement => {
     const panel = document.createElement('div');
     panel.id = "domingo-control-panel";
-    panel.classList.add('domingo-control-panel');
+    panel.classList.add('domingo-control-panel', 'domingo-dom');
 
     const subPanel = document.createElement('div');
     subPanel.id = "domingo-sub-control-panel";
-    subPanel.classList.add('domingo-sub-control-panel');
+    subPanel.classList.add('domingo-sub-control-panel', 'domingo-dom');
 
-    const hideButton = document.createElement('button');
-    const enlargeButton = document.createElement('button');
-    const boldButton = document.createElement('button');
-    const widerButton = document.createElement('button');
-    const colorButton = document.createElement("button");
 
-    hideButton.id = "hideButton";
-    hideButton.classList.add('domingo-action-button');
-    hideButton.innerText = "非表示にする";
+    /*generate Action-buttons from local action list*/
+    /*also generate EventListener*/
+    const defaultActions: DOMinGoAction[] = [domingoHide, domingoEnlarge, domingoBold, domingoWidenLine, domingoChangeBGColor];
 
-    enlargeButton.id = "enlargeButton";
-    enlargeButton.classList.add('domingo-action-button');
-    enlargeButton.innerText = "文字を大きくする";
+    const generateActionButton = (actions: DOMinGoAction[]) => {
+        actions.forEach((action: DOMinGoAction) => {
+            /*generate button*/
+            const button = document.createElement('div');
+            button.id = action.name;
+            button.innerText = action.desc;
+            button.classList.add("domingo-action-button", "domingo-dom");
+            /*add EventListener*/
+            button.addEventListener('click', async () => {
+                /*get reservedList*/
+                const localReservedList = await chromep.storage.local.get("reservedList");
+                const localPairList = await chromep.storage.local.get("actionPairList");
+                if (Object.keys(localReservedList).includes("reservedList") &&
+                    Object.keys(localPairList).includes("actionPairList")
+                ) {
+                    const reservedList = Object.values(localReservedList) as string[];
+                    const pairList = Object.values(localPairList) as ActionPair[];
+                    console.log(`reservedList length: ${reservedList.length}`);
+                    if (reservedList) {
+                        reservedList.forEach(target => {
+                            console.log(`target: ${target}`);
+                            applyAction(target, action);
+                            setActionPair(target, action);
+                        });
+                    } else {
+                        console.log("cannot access to local List");
+                    }
+                }
+            });
+            /*append to Prompt*/
+            panel.appendChild(button);
+        });
+    };
 
-    boldButton.id = "boldButton";
-    boldButton.classList.add('domingo-action-button');
-    boldButton.innerText = "文字を太くする";
-
-    widerButton.id = "widerButton";
-    widerButton.classList.add('domingo-action-button');
-    widerButton.innerText = "行間を広げる";
-
-    colorButton.id = "colorButton";
-    colorButton.classList.add('domingo-action-button');
-    colorButton.innerText = "背景色を変更する";
+    generateActionButton(defaultActions);
 
 
     const redoButton = document.createElement('button');
@@ -40,19 +63,19 @@ export const addPanel = (): HTMLElement => {
     const settingButton = document.createElement('button');
 
     redoButton.id = "redoButton";
-    redoButton.classList.add('domingo-control-button');
+    redoButton.classList.add('domingo-control-button', 'domingo-dom');
     redoButton.innerText = "戻す";
 
     importButton.id = "importButton";
-    importButton.classList.add('domingo-control-button');
+    importButton.classList.add('domingo-control-button', 'domingo-dom');
     importButton.innerText = "⇩導入";
 
     exportButton.id = "exportButton";
-    exportButton.classList.add('domingo-control-button');
+    exportButton.classList.add('domingo-control-button', 'domingo-dom');
     exportButton.innerText = "⇧共有";
 
     settingButton.id = "settingButton";
-    settingButton.classList.add('domingo-control-button');
+    settingButton.classList.add('domingo-control-button', 'domingo-dom');
     settingButton.innerText = "設定";
 
     subPanel.appendChild(redoButton);
@@ -60,13 +83,6 @@ export const addPanel = (): HTMLElement => {
     subPanel.appendChild(exportButton);
     subPanel.appendChild(settingButton);
 
-
-    
-    panel.appendChild(hideButton);
-    panel.appendChild(enlargeButton);
-    panel.appendChild(boldButton);
-    panel.appendChild(widerButton);
-    panel.appendChild(colorButton);
     panel.appendChild(subPanel);
 
     window.document.body.appendChild(panel);

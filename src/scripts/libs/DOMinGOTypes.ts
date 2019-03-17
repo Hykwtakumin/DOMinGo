@@ -1,18 +1,7 @@
 export type ActionPair = {
-    type: targetType,
     target: string,
     action: DOMinGoAction
 };
-
-export type reservedDOM = {
-    type: targetType,
-    target: string
-}
-
-export enum targetType {
-    selector,
-    cssClass
-}
 
 export type DOMinGoAction = {
     name: string,
@@ -21,6 +10,9 @@ export type DOMinGoAction = {
     style: string
 }
 
-export type CustomTheme = {}
-
-export type AnonymusCustomTheme = {}
+export type CustomTheme = {
+    hostName: string,
+    isAnonymous: boolean,
+    desc: string,
+    actionPairList: ActionPair[]
+}
