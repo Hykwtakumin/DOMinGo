@@ -69,10 +69,24 @@ export const addPanel = (): HTMLElement => {
     importButton.id = "importButton";
     importButton.classList.add('domingo-control-button', 'domingo-dom');
     importButton.innerText = "⇩導入";
+    importButton.addEventListener('click', () => {
+        /*Open Dialog*/
+        /*Search ScrapBox for this site's hostname*/
+        /*If style detected, render Import Button in dialog*/
+        /*Button Clicked, import style to local and close dialog*/
+        /*If style didnt detected, render alter message*/
+    });
 
     exportButton.id = "exportButton";
     exportButton.classList.add('domingo-control-button', 'domingo-dom');
     exportButton.innerText = "⇧共有";
+    exportButton.addEventListener('click', () => {
+        chrome.runtime.sendMessage({tag: "exportStyle", body: ""});
+        /*Open Dialog*/
+        /*Edit Description (this will be page title!)*/
+        /*Upload Button Clicked, upload as normal CustomTheme */
+        /*Secret upload button clicked, upload as anonymous CustomTheme*/
+    });
 
     settingButton.id = "settingButton";
     settingButton.classList.add('domingo-control-button', 'domingo-dom');

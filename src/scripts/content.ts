@@ -7,6 +7,13 @@ import {getReservedDOM, setActionPairList, setReservedDOM} from "./libs/DOMinGoS
 import {ActionPair, CustomTheme, DOMinGoAction} from "./libs/DOMinGOTypes";
 import AlarmCreateInfo = chrome.alarms.AlarmCreateInfo;
 import local = chrome.storage.local;
+import {
+    domingoBold,
+    domingoChangeBGColor,
+    domingoEnlarge,
+    domingoHide,
+    domingoWidenLine
+} from "./libs/defaultActionList";
 
 declare var require: any;
 const getSelector = require('get-selector');
@@ -150,6 +157,13 @@ window.onload = async () => {
         const pairList = Object.values(localPairList) as ActionPair[];
         const thisPageHash = md5(location.hostname);
         console.log("all OK");
+
+        const defaultActions: DOMinGoAction[] = [domingoHide, domingoEnlarge, domingoBold, domingoWidenLine, domingoChangeBGColor];
+        await chromep.storage.local.set({"actionList": defaultActions});
+        const storedActionList = await chromep.storage.local.get("actionList");
+        console.dir(storedActionList);
+
+        chrome.runtime.sendMessage({tag: "loadStyles", body: Object.values(storedActionList)});
 
         if (customThemeList && pairList) {
             customThemeList.forEach(async (theme: CustomTheme) => {
