@@ -24,20 +24,24 @@
   },
   "homepage": "https://github.com/Hykwtakumin/ChromeExtension-TS-Starter#readme",
   "dependencies": {
+    "@emotion/core": "^10.0.9",
+    "@types/aphrodite": "^0.5.13",
     "@types/es6-promise": "^3.3.0",
-    "@types/react": "^16.7.13",
-    "@types/react-dom": "^16.0.11",
+    "@types/react": "^16.8.8",
+    "@types/react-dom": "^16.8.2",
+    "aphrodite": "^2.3.1",
     "axios": "^0.18.0",
-    "chrome-promise": "^3.0.2",
-    "emotion": "^10.0.2",
+    "chrome-promise": "^3.0.4",
+    "emotion": "^10.0.9",
     "get-selector": "^1.0.3",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
+    "md5": "^2.2.1",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
     "shortid": "^2.2.14"
   },
   "devDependencies": {
-    "@types/chrome": "^0.0.68",
-    "browserify": "^16.2.2",
-    "typescript": "^2.9.1"
+    "@types/chrome": "^0.0.81",
+    "browserify": "^16.2.3",
+    "typescript": "^3.3.3333"
   }
 }

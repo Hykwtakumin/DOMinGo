@@ -1,6 +1,9 @@
 import chromep from 'chrome-promise';
 import reloadExtension from './libs/reloadExtension';
 import notifiCate from "./libs/notifiCate";
+import getActiveTab from "./libs/getActiveTab";
+import {DOMinGoAction} from "./libs/DOMinGOTypes";
+import {domingoHide} from "./libs/defaultActionList";
 
 let isEliminationMode: boolean = false;
 
@@ -41,4 +44,15 @@ chrome.browserAction.onClicked.addListener(tab => {
     }
     //真偽値を入れ替える
     isEliminationMode = !isEliminationMode;
+});
+
+chrome.runtime.onMessage.addListener(async (req, sender, res) => {
+    if (req.tag === "loadStyles") {
+        const actionList = Object.values(req.body)[0] as DOMinGoAction[];
+        console.dir(actionList);
+        actionList.forEach(action => {
+            chrome.tabs.insertCSS({code: `${action.style}`});
+        });
+    } else if (req.tag === "exportStyle") {
+    }
 });

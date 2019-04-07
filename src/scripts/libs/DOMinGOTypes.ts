@@ -1,11 +1,6 @@
-export type SelctorActionPair = {
-    selctor: string,
-    action: string
-}
-
-export type ClassActionPair = {
-    class: string,
-    action: string
+export type ActionPair = {
+    target: string,
+    action: DOMinGoAction
 };
 
 export type DOMinGoAction = {
@@ -13,4 +8,11 @@ export type DOMinGoAction = {
     desc: string,
     class: string,
     style: string
+}
+
+export type CustomTheme = {
+    hostName: string,
+    isAnonymous: boolean,
+    desc: string,
+    actionPairList: ActionPair[]
 }
