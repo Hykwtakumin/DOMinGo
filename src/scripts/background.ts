@@ -54,12 +54,5 @@ chrome.runtime.onMessage.addListener(async (req, sender, res) => {
             chrome.tabs.insertCSS({code: `${action.style}`});
         });
     } else if (req.tag === "exportStyle") {
-        const title = "This is exported test page!";
-        const text = `sample is here\n code:test.json\n\t ${JSON.stringify(domingoHide)}`;
-        const encoded = encodeURI(text);
-        // const request = await fetch(`https://scrapbox.io/dom-in-go/?body=${encoded}`);
-        chrome.tabs.create({url: `https://scrapbox.io/dom-in-go/${title}?body=${encoded}`}, tab => {
-            console.dir(tab);
-        });
     }
 });
