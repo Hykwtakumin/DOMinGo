@@ -5,8 +5,7 @@
   "icons": {
     "128": "icons/bigicon.png"
   },
-  "browser_action": {
-  },
+  "browser_action": {},
   "permissions": [
     "activeTab",
     "tabs",
@@ -17,33 +16,16 @@
     "notifications",
     "<all_urls>"
   ],
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "css": [
-        "styles/content.css"
-      ],
-      "js": [
-        "scripts/content.js"
-      ],
-      "run_at": "document_idle",
-      "all_frames": true
-    }
-  ],
   "background": {
     "script": "background.js",
     "page": "pages/background.html",
-    "persistent": true
+    "persistent": false
   },
   "options_page": "pages/option.html",
   "options_ui": {
     "page": "pages/option.html",
     "open_in_tab": true
   },
-  "web_accessible_resources": [
-    "/icons/bigicon.png"
-  ],
+  "web_accessible_resources": ["/icons/bigicon.png"],
   "manifest_version": 2
 }
